@@ -25,7 +25,31 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GreaterThan<T extends number, U extends number> = any
+type CreateTuple<N extends number, R extends any[] = []> =
+  N extends R['length'] ? R : CreateTuple<N, [...R, 0]>
+
+// digit char-tuple
+type Chars<S extends string> =
+  S extends `${infer F}${infer R}` ? [F, ...Chars<R>] : []
+
+// O(1) digit comparison via pattern match, no recursion
+type Order = '0123456789'
+type DigitGT<A extends string, B extends string> =
+  Order extends `${string}${B}${string}${A}${string}` ? true : false
+
+// walk digit strings left to right once counts match
+type CompareEqualLength<A extends string, B extends string> =
+  A extends `${infer Ah}${infer Arest}`
+  ? B extends `${infer Bh}${infer Brest}`
+  ? Ah extends Bh ? CompareEqualLength<Arest, Brest> : DigitGT<Ah, Bh>
+  : false
+  : false
+
+type GreaterThan<N1 extends number, N2 extends number> =
+  N1 extends N2 ? false :
+  CreateTuple<Chars<`${N1}`>['length']> extends [...CreateTuple<Chars<`${N2}`>['length']>, ...infer Rest]
+  ? Rest extends [] ? CompareEqualLength<`${N1}`, `${N2}`> : true
+  : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
