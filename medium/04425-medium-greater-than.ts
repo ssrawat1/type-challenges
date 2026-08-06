@@ -32,7 +32,7 @@ type CreateTuple<N extends number, R extends any[] = []> =
 type Chars<S extends string> =
   S extends `${infer F}${infer R}` ? [F, ...Chars<R>] : []
 
-// O(1) digit comparison via pattern match, no recursion
+// O(1) digit comparison via pattern match (same as 2 > 3)
 type Order = '0123456789'
 type DigitGT<A extends string, B extends string> =
   Order extends `${string}${B}${string}${A}${string}` ? true : false
