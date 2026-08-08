@@ -19,12 +19,26 @@
 
 /* _____________ Your Code Here _____________ */
 
+
+type CreateTuple<N extends number, A extends any[] = []> =
+  A['length'] extends N ? A : CreateTuple<N, [...A, 0]>
+
+ type GreaterOrEqual<A extends number, B extends number> =
+  CreateTuple<A> extends [...CreateTuple<B>, ...any[]] ? true : false
+
 type Fill<
   T extends unknown[],
   N,
   Start extends number = 0,
   End extends number = T['length'],
-> = any
+  I extends any[] = []
+> = I['length'] extends End
+  ? T
+  : T extends [infer F, ...infer R]
+  ? GreaterOrEqual<I['length'], Start> extends true
+  ? [N, ...Fill<R, N, Start, End, [...I, unknown]>]
+  : [F, ...Fill<R, N, Start, End, [...I, unknown]>]
+  : T
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
