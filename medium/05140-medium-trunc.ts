@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trunc = any
+type Trunc<N extends number | string> = `${N}` extends `${infer S}.${infer _}` ? S extends "-" ? "-0" : S extends "" ? "0" : S : `${N}`
+
+type T = Trunc<"-.3">
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
