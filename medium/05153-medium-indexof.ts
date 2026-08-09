@@ -18,7 +18,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IndexOf<T, U> = any
+type IsEqual<X, Y> =
+  (<T>() => T extends X ? 1 : 2) extends
+  (<T>() => T extends Y ? 1 : 2)
+  ? true
+  : false;
+
+type T = IsEqual<any, string>
+type IndexOf<T extends any[], U, I extends number[] = []> =
+  T extends [infer F, ...infer R]
+  ? IsEqual<F, U> extends true
+  ? I['length']
+  : IndexOf<R, U, [...I, 0]>
+  : -1;
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -39,3 +52,4 @@ type cases = [
   > View solutions: https://tsch.js.org/5153/solutions
   > More Challenges: https://tsch.js.org
 */
+
