@@ -19,7 +19,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Join<T, U> = any
+type Join<T extends any[], U extends string | number = ","> = T extends [infer F, ...infer R] ? `${F & string}${R extends [] ? "" : U}${Join<R, U>}` : ""
+
+type T = Join<['1', '1', '1']>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
