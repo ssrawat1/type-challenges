@@ -11,7 +11,7 @@ where every challenge is solved entirely using the TypeScript type system.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-Advanced-blue?logo=typescript)
 ![Easy](https://img.shields.io/badge/Easy-100%25-success)
-![Medium](https://img.shields.io/badge/Medium-50%20Solved-orange)
+![Medium](https://img.shields.io/badge/Medium-62%20Solved-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
