@@ -18,7 +18,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trunc<N extends number | string> = `${N}` extends `${infer S}.${infer _}` ? S extends "-" ? "-0" : S extends "" ? "0" : S : `${N}`
+type Trunc<N extends number | string> =
+  | `${N}` extends `${infer S}.${infer _}`
+  ? S extends "-" ? "-0" : S extends ""
+  ? "0"
+  : S :
+  `${N}`
 
 type T = Trunc<"-.3">
 

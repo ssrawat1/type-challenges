@@ -23,7 +23,7 @@
 type CreateTuple<N extends number, A extends any[] = []> =
   A['length'] extends N ? A : CreateTuple<N, [...A, 0]>
 
- type GreaterOrEqual<A extends number, B extends number> =
+type GreaterOrEqual<A extends number, B extends number> =
   CreateTuple<A> extends [...CreateTuple<B>, ...any[]] ? true : false
 
 type Fill<

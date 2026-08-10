@@ -20,9 +20,12 @@
 /* _____________ Your Code Here _____________ */
 
 type Chunk<A extends any[], N extends number, Curr extends any[] = [], Ans extends any[] = []> = Curr['length'] extends N
-  ? Chunk<A, N, [], [...Ans, Curr]> : A extends [infer F, ...infer R]
-  ? [...Chunk<R, N, [...Curr, F], Ans>] : Curr['length'] extends 0
-  ? [...Ans, ...Curr] : [...Ans, Curr]
+  ? Chunk<A, N, [], [...Ans, Curr]>
+  : A extends [infer F, ...infer R]
+  ? [...Chunk<R, N, [...Curr, F], Ans>]
+  : Curr['length'] extends 0
+  ? [...Ans, ...Curr]
+  : [...Ans, Curr]
 
 type T = Chunk<[1, 2, 3], 1>
 

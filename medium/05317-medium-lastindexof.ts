@@ -19,13 +19,18 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsEqual<X, Y> = (<T>() => T extends X ? true : false) extends (<T>() => T extends Y ? true : false) ? true : false
+type IsEqual<X, Y> =
+  (<T>() => T extends X ? true : false) extends
+  (<T>() => T extends Y ? true : false)
+  ? true
+  : false;
 
-type ReverseArray<T extends any[]> = T extends [infer F, ...infer R] ? [...ReverseArray<R>, F] : T
-
-type LastIndexOf<T extends any[], U, I extends number = -1> = ReverseArray<T> extends [infer F, ...infer R] ? (IsEqual<F, U> extends true ? I : LastIndexOf<R, U, R["length"]>) : -1
-
-type T = LastIndexOf<[0, 0, 0], 2>
+type LastIndexOf<T extends any[], U> =
+  T extends [...infer I, infer L]
+  ? IsEqual<L, U> extends true
+  ? I['length']
+  : LastIndexOf<I, U>
+  : -1;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
