@@ -48,7 +48,7 @@ These challenges completely change the way you think about TypeScript.
 | Difficulty | Status |
 |------------|--------|
 | 🟢 Easy | **100% Complete** |
-| 🟡 Medium | **50 Challenges Solved** |
+| 🟡 Medium | **62 Challenges Solved** |
 | 🔴 Hard | Coming Soon |
 
 ---
