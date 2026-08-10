@@ -20,10 +20,34 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Unique<T> = any
+type IsEqual<X, Y> =
+  (<T>() => T extends X ? true : false) extends
+  (<T>() => T extends Y ? true : false)
+  ? true
+  : false;
+
+
+type Includes<T extends readonly any[], U> =
+  T extends [infer F, ...infer R]
+  ? IsEqual<F, U> extends true
+  ? true
+  : Includes<R, U>
+  : false;
+
+
+type Unique<
+  T extends readonly any[],
+  Result extends readonly any[] = []
+> =
+  T extends [infer F, ...infer R]
+  ? Includes<Result, F> extends true
+  ? Unique<R, Result>
+  : Unique<R, [...Result, F]>
+  : Result;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
+import { MarkOptions } from 'node:perf_hooks';
 
 type cases = [
   Expect<Equal<Unique<[1, 1, 2, 2, 3, 3]>, [1, 2, 3]>>,
