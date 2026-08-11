@@ -39,7 +39,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MapTypes<T, R> = any
+type ExtractMapTo<V, R> = R extends { mapFrom: infer From; mapTo: infer To }
+  ? V extends From
+  ? To
+  : never
+  : never;
+
+type MapTypes<T, R extends { mapFrom: any; mapTo: any }> = {
+  [K in keyof T]: [ExtractMapTo<T[K], R>] extends [never]
+  ? T[K]
+  : ExtractMapTo<T[K], R>;
+};
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
