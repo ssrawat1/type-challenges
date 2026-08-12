@@ -16,9 +16,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IncreaseByOne<N extends number, R extends any[] = []> = R['length'] extends N ? [...R, 0]['length'] : IncreaseByOne<N, [...R, 0]>
+type IncreaseByOne<N extends number, R extends any[] = []> =
+  R['length'] extends N
+  ? [...R, 0]['length']
+  : IncreaseByOne<N, [...R, 0]>
 
-type NumberRange<L extends number, H extends number, R extends any[] = []> = L extends H ? [...R, L][number] : NumberRange<IncreaseByOne<L>, H, [...R, L]>
+type NumberRange<L extends number, H extends number, R extends any[] = []> =
+  L extends H
+  ? [...R, L][number]
+  : NumberRange<IncreaseByOne<L>, H, [...R, L]>
 
 
 /* _____________ Test Cases _____________ */
