@@ -16,7 +16,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type NumberRange<L, H> = any
+type IncreaseByOne<N extends number, R extends any[] = []> = R['length'] extends N ? [...R, 0]['length'] : IncreaseByOne<N, [...R, 0]>
+
+type NumberRange<L extends number, H extends number, R extends any[] = []> = L extends H ? [...R, L][number] : NumberRange<IncreaseByOne<L>, H, [...R, L]>
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -43,6 +46,7 @@ type cases = [
   Expect<Equal<NumberRange<0, 2>, Result2>>,
   Expect<Equal<NumberRange<0, 140>, Result3>>,
 ]
+
 
 /* _____________ Further Steps _____________ */
 /*
