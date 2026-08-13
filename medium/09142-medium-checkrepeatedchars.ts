@@ -19,7 +19,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CheckRepeatedChars<T extends string> = any
+type CheckRepeatedChars<T extends string, M extends string[] = []> =
+  | T extends `${infer F}${infer R}`
+  ? F extends M[number] ? true : CheckRepeatedChars<R, [...M, F]>
+  : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -37,3 +40,5 @@ type cases = [
   > View solutions: https://tsch.js.org/9142/solutions
   > More Challenges: https://tsch.js.org
 */
+
+
