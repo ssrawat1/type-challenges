@@ -20,7 +20,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Subsequence<T extends any[]> = any
+type Subsequence<T extends unknown[]> = T extends [infer X, ...infer Y]
+  ? [X, ...Subsequence<Y>] | Subsequence<Y>
+  : [];
+
+type T = Subsequence<[1, 2, 3, 4]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -33,14 +37,14 @@ type cases = [
   [1, 2] | [1, 3] | [1, 4] | [1, 5] | [2, 3] | [2, 4] | [2, 5] | [3, 4] | [3, 5] | [4, 5] |
   [1, 2, 3] | [1, 2, 4] | [1, 2, 5] | [1, 3, 4] | [1, 3, 5] | [1, 4, 5] | [2, 3, 4] | [2, 3, 5] | [2, 4, 5] | [3, 4, 5] |
   [1, 2, 3, 4] | [1, 2, 3, 5] | [1, 2, 4, 5] | [1, 3, 4, 5] | [2, 3, 4, 5] |
-  [1, 2, 3, 4, 5] >>,
+  [1, 2, 3, 4, 5]>>,
   Expect<Equal<Subsequence<['a', 'b', 'c']>, [] |
   ['a'] | ['b'] | ['c'] |
   ['a', 'b'] | ['a', 'c'] | ['b', 'c'] |
-  ['a', 'b', 'c'] >>,
+  ['a', 'b', 'c']>>,
   Expect<Equal<Subsequence<['x', 'y']>, [] |
   ['x'] | ['y'] |
-  ['x', 'y'] >>,
+  ['x', 'y']>>,
 ]
 
 /* _____________ Further Steps _____________ */
