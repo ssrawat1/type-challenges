@@ -12,7 +12,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FindEles<T extends any[]> = any
+type CountIn<T extends any[], E, Acc extends any[] = []> =
+  T extends [infer F, ...infer R]
+    ? Equal<F, E> extends true
+      ? CountIn<R, E, [...Acc, 0]>
+      : CountIn<R, E, Acc>
+    : Acc['length']
+
+type FindEles<T extends any[], Original extends any[] = T> =
+  T extends [infer F, ...infer R]
+    ? CountIn<Original, F> extends 1
+      ? [F, ...FindEles<R, Original>]
+      : FindEles<R, Original>
+    : []
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
