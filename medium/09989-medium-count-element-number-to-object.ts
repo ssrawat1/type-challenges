@@ -33,7 +33,24 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CountElementNumberToObject<T> = any
+type Flat<A extends any[]> =
+  | A extends [infer F, ...infer R]
+  ? F extends any[]
+  ? [...Flat<F>, ...Flat<R>]
+  : [F, ...Flat<R>]
+  : A
+
+type Count<N, A extends any[], C extends number[] = []> =
+  | A extends [infer F, ...infer R]
+  ? F extends N
+  ? Count<N, R, [...C, 0]>
+  : Count<N, R, C>
+  : C['length']
+
+type CountElementNumberToObject<T extends any[], FlatArr extends any[] = Flat<T>> = {
+  [K in FlatArr[number]]: Count<K, FlatArr>
+}
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -45,7 +62,7 @@ type cases = [
     3: 1
     4: 1
     5: 1
-  } >>,
+  }>>,
   Expect<Equal<CountElementNumberToObject<[1, 2, 3, 4, 5, [1, 2, 3]]>, {
     1: 2
     2: 2
