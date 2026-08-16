@@ -36,8 +36,21 @@
 */
 
 /* _____________ Your Code Here _____________ */
+ 
+type Primitive<T> =
+  T extends string ? string :
+  T extends number ? number :
+  T extends boolean ? boolean :
+  T extends bigint ? bigint :
+  T extends symbol ? symbol :
+  T extends Function ? Function :
+  {
+    [K in keyof T]: Primitive<T[K]>
+  }
 
-type ToPrimitive = any
+type ToPrimitive<T extends object> = {
+  [K in keyof T]: Primitive<T[K]> 
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
