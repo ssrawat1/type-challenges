@@ -12,7 +12,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Filter<T extends any[], P> = []
+type Filter<T extends any[], P, A extends any[] = []> = 
+ T extends [infer F, ...infer R] 
+   ? F extends P 
+        ? Filter<R, P, [...A, F]> 
+        : Filter<R, P, A> 
+  : A
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -24,6 +29,7 @@ type cases = [
   Expect<Equal<Filter<[0, 1, 2], 0 | 1>, [0, 1]>>,
   Expect<Equal<Filter<[0, 1, 2], Falsy>, [0]>>,
 ]
+
 
 /* _____________ Further Steps _____________ */
 /*
