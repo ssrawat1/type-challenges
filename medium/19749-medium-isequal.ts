@@ -24,7 +24,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsEqual<X, Y> = any
+type IsEqual<X, Y> = (<T>() => T extends X ? 1 : 0) extends <T>() => T extends Y ? 1 : 0 ? true : false;
+
+// ConditionalA:
+//   CheckType   = T
+//   ExtendsType = 1
+//   TrueType    = 1
+//   FalseType   = 0
+
+// ConditionalB:
+//   CheckType   = T
+//   ExtendsType = 1
+//   TrueType    = 1
+//   FalseType   = 0
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
