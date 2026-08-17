@@ -12,7 +12,24 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FindAll<T extends string, P extends string> = any
+type CreateTuple<S extends string, T extends any[] = []> = 
+   S extends `${infer F}${infer R}` 
+   ? CreateTuple<R, [...T, F]> 
+   : T['length']
+
+type ReplaceMatchingString<S extends string> =
+   S extends `${infer F}${infer R}` 
+   ? `${0}${ReplaceMatchingString<R>}` 
+   : ""
+
+type FindAll<T extends string, P extends string, A extends any[] = []> = 
+  P extends "" 
+    ? [] 
+    : T extends `${infer F}${P}${infer R}` 
+      ? P extends `${infer F1}${infer R1}` 
+        ? FindAll<`${F}${ReplaceMatchingString<F1>}${R1}${R}`, P, [...A, CreateTuple<F>]> 
+        : never 
+   : A
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
