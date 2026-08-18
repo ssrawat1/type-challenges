@@ -13,8 +13,13 @@
 
 /* _____________ Your Code Here _____________ */
 
+
 // 实现 Combs
-type Combs<T extends any[]> = any
+
+type Combs<T extends any[]> =
+  | T extends [infer F extends string, ...infer R extends any[]]
+  ? `${F} ${R[number]}` | Combs<R>
+  : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
