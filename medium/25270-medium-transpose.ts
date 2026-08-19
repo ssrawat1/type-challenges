@@ -18,7 +18,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Transpose<M extends number[][]> = any
+type CreateRows<T extends number[], M extends number[][], I extends number = 0, A extends number[][] = []> = T extends [infer F, ...infer R extends number[]] ? I extends 0 ? CreateRows<R, [...M, [F]], I, M> : M extends [infer MF extends number[], ...infer ML extends number[][]] ? CreateRows<R, ML, I, [...A, [...MF, F]]> : T : A
+
+
+
+type Transpose<M extends number[][], Matrix extends number[][] = [], I extends number = 0> = M['length'] extends 0 ? M : M[0]["length"] extends 1 ? M : M extends [infer F extends number[], ...infer R extends number[][]] ? Transpose<R, CreateRows<F, Matrix, I>, 1> : Matrix
+
+type T = Transpose<[[1, 2, 3], [4, 5, 6], [7, 8, 9]]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
