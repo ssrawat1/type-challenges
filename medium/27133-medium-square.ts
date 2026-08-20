@@ -12,7 +12,23 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Square<N extends number> = number
+type BuildTuple<N extends number, T extends unknown[] = []> =
+  T['length'] extends N ? T : BuildTuple<N, [...T, unknown]>;
+
+type Multiply<
+  N1 extends number,
+  N2 extends number,
+  Unit extends unknown[] = BuildTuple<N1>,
+  Counter extends unknown[] = [],
+  Result extends unknown[] = []
+> =
+  Counter['length'] extends N2
+  ? Result['length']
+  : Multiply<N1, N2, Unit, [...Counter, unknown], [...Result, ...Unit]>;
+
+type Abs<N extends number> = `${N}` extends `-${infer P extends number}` ? P : N;
+
+type Square<N extends number> = Multiply<Abs<N>, Abs<N>>;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
