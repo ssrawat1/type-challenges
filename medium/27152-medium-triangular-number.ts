@@ -12,7 +12,21 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Triangular<N extends number> = any
+type CreateTuple<N extends number, T extends number[] = []> = T['length'] extends N ? T : CreateTuple<N, [...T, 0]>
+
+type Triangular<
+  N extends number,
+  T extends number[] = CreateTuple<N>,
+  R extends number[] = []
+> =
+  T extends [0, ...infer Rest extends number[]]
+  ? Triangular<
+    N,
+    Rest,
+    [...R, ...T]
+  >
+  : R['length']
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
