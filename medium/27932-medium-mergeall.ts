@@ -21,34 +21,50 @@
 */
 
 /* _____________ Your Code Here _____________ */
+type Merge<A, B> = {
+  [K in keyof A | keyof B]:
+    K extends keyof A
+      ? K extends keyof B
+        ? A[K] | B[K]
+        : A[K]
+      : K extends keyof B
+        ? B[K]
+        : never
+}
 
-type MergeAll<XS> = any
+type MergeAll<XS extends object[], Acc = {}> =
+  XS extends [infer F extends object, ...infer R extends object[]]
+    ? MergeAll<R, Merge<Acc, F>>
+    : Acc
+
+type T = MergeAll<[{ a: 1 | 2 }, { a: 1 | 3 }]>
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
-  Expect<Equal<MergeAll<[]>, {} >>,
+  Expect<Equal<MergeAll<[]>, {}>>,
   Expect<Equal<MergeAll<[{ a: 1 }]>, { a: 1 }>>,
   Expect<Equal<
     MergeAll<[{ a: string }, { a: string }]>,
     { a: string }
->
+  >
   >,
   Expect<Equal<
-    MergeAll<[{ }, { a: string }]>,
+    MergeAll<[{}, { a: string }]>,
     { a: string }
->
+  >
   >,
   Expect<Equal<
     MergeAll<[{ a: 1 }, { c: 2 }]>,
     { a: 1, c: 2 }
->
+  >
   >,
   Expect<Equal<
     MergeAll<[{ a: 1, b: 2 }, { a: 2 }, { c: 3 }]>,
     { a: 1 | 2, b: 2, c: 3 }
->
+  >
   >,
   Expect<Equal<MergeAll<[{ a: 1 }, { a: number }]>, { a: number }>>,
   Expect<Equal<MergeAll<[{ a: number }, { a: 1 }]>, { a: number }>>,
