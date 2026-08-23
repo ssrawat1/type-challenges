@@ -20,7 +20,16 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ExtractToObject<T, U> = any
+type Merge<T extends object> = {
+  [K in keyof T]: T[K]
+}
+type ExtractToObject<T extends object, U extends keyof T> = Merge<{
+  [K in keyof T as K extends U ? never : K]: T[K]
+} & {
+  [K in keyof T[U]]: T[U][K]
+}>
+
+type T = ExtractToObject<test3, 'prop1'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
