@@ -30,7 +30,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DeepOmit = any
+type DeepOmit<T extends object, Key extends string> = {
+  [K in keyof T as K extends Key ? never : K]: T[K] extends object ? DeepOmit<T[K], Key extends `${infer F}.${infer R}` ? R : never> : T[K]
+}
+
+type Check = DeepOmit<obj, 'name'> & {}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -57,3 +61,5 @@ type cases = [
   > View solutions: https://tsch.js.org/29785/solutions
   > More Challenges: https://tsch.js.org
 */
+
+
