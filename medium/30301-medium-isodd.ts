@@ -12,7 +12,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsOdd<T extends number> = any
+type IsOdd<T extends number> =
+  number extends T
+  ? false
+  : `${T}` extends `${string}e${string}` | `${string}.${string}`
+  ? false
+  : `${T}` extends `${string}${"1" | "3" | "5" | "7" | "9"}`
+  ? true
+  : false;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
