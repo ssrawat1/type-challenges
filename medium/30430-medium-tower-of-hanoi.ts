@@ -15,39 +15,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type BuildTuple<
-  N extends number,
-  R extends unknown[] = []
-> = R['length'] extends N
-  ? R
-  : BuildTuple<N, [...R, unknown]>;
+type Hanoi<N extends number, From = 'A', To = 'B', Intermediate = 'C'> = any
 
-type Subtract<
-  A extends number,
-  B extends number
-> =
-  BuildTuple<A> extends [
-    ...BuildTuple<B>,
-    ...infer Rest
-  ]
-    ? Rest['length']
-    : never;
-
-type Hanoi<
-  N extends number,
-  From = 'A',
-  To = 'B',
-  Intermediate = 'C'
-> =
-  N extends 0
-    ? []
-    : N extends 1
-      ? [[From, To]]
-      : [
-          ...Hanoi<Subtract<N, 1>, From, Intermediate, To>,
-          [From, To],
-          ...Hanoi<Subtract<N, 1>, Intermediate, To, From>
-        ];
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
