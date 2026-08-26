@@ -13,7 +13,51 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Pascal<N extends number> = any
+type CreateTuple<
+  N extends number,
+  R extends unknown[] = []
+> = R['length'] extends N
+  ? R
+  : CreateTuple<N, [...R, 0]>
+
+type Add<
+  A extends number,
+  B extends number
+> = [
+  ...CreateTuple<A>,
+  ...CreateTuple<B>
+]['length'] & number
+
+type NextRow<
+  R extends number[],
+  Result extends number[] = [1]
+> =
+  R extends [
+    infer A extends number,
+    infer B extends number,
+    ...infer Rest extends number[]
+  ]
+  ? NextRow<
+    [B, ...Rest],
+    [...Result, Add<A, B>]
+  >
+  : [...Result, 1]
+
+type Last<R extends number[][]> =
+  R extends [...number[][], infer L extends number[]]
+  ? L
+  : never
+
+type Pascal<
+  N extends number,
+  Rows extends number[][] = [[1]]
+> =
+  Rows['length'] extends N
+  ? Rows
+  : Pascal<
+    N,
+    [...Rows, NextRow<Last<Rows>>]
+  >
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
