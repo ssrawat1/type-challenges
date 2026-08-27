@@ -24,8 +24,40 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsFixedStringLiteralType<S extends string> = any
+// Exact equality (mutual extends), wrapped in tuples to avoid distributing over unions
 
+// true only for a union of 2+ members
+type IsUnion<S, Copy = S> = S extends S
+  ? [Copy] extends [S]
+  ? false
+  : true
+  : never
+
+// Detects when a captured "Head" segment is one of the four irreducible open markers
+type WideAtom<H extends string> =
+  Equal<H, string> extends true ? true :
+  Equal<H, `${number}`> extends true ? true :
+  Equal<H, `${bigint}`> extends true ? true :
+  Equal<H, `${string & {}}`> extends true ? true :
+  false
+
+type CheckLiteral<S extends string> =
+  S extends `${infer Head extends string}${infer Tail extends string}`
+  ? WideAtom<Head> extends true
+  ? false
+  : CheckLiteral<Tail>
+  : Equal<S, ''> extends true
+  ? true
+  : false
+
+type IsFixedStringLiteralType<S extends string> =
+  [S] extends [never]
+  ? false
+  : string extends S
+  ? false
+  : IsUnion<S> extends true
+  ? false
+  : CheckLiteral<S>
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
