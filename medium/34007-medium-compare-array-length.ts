@@ -16,8 +16,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CompareArrayLength<T extends any[], U extends any[]> = any
+type CreateTuple<N extends number, R extends number[] = []> = R['length'] extends N ? R : CreateTuple<N, [...R, 0]>
 
+type CompareArrayLength<T extends any[], U extends any[]> = T['length'] extends U['length'] ? 0 : CreateTuple<T['length']> extends [...CreateTuple<U["length"]>, ...infer R] ? 1 : -1
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
