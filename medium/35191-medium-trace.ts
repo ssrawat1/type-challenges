@@ -25,7 +25,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trace<T extends any[][]> = any
+type Trace<T extends any[][]> = T extends [...infer F extends any[][], infer R extends any[]] ? R[F['length']] | Trace<F> : never;
+
+type T = Trace<[[0, 1, 1], [2, 0, 2], [3, 3, 0]]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
