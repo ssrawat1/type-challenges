@@ -48,7 +48,7 @@ These challenges completely change the way you think about TypeScript.
 | Difficulty | Status |
 |------------|--------|
 | 🟢 Easy | **100% Complete** |
-| 🟡 Medium | **101 Challenges Solved** |
+| 🟡 Medium | **101 Challenges Solved (100%)** |
 | 🔴 Hard | Coming Soon |
 
 ---
@@ -204,7 +204,7 @@ The knowledge gained from solving them directly translates into writing:
 
 - ✅ Finish every Easy challenge
 - ✅ Solve 50 Medium challenges
-- 🚧 Complete all Medium challenges
+- ✅ Complete all Medium challenges
 - 🎯 Begin Hard challenges
 - 🚀 Continue exploring the limits of TypeScript's type system
 
